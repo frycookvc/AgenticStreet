@@ -143,14 +143,14 @@ RESPONSE=$(curl -sf --max-time 10 \
 COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | grep -o '[0-9]*$')
 [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ] && exit 0
 
-LAST_ID=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | tail -1 | grep -o '[0-9]*$')
+LAST_ID=$(echo "$RESPONSE" | grep -o '"lastEventId":[0-9]*' | grep -o '[0-9]*$')
 [ -z "$LAST_ID" ] && exit 0
 
 curl -sf --max-time 15 -X POST "${HOOK_URL}/hooks/agent" \
   -H "Authorization: Bearer $HOOK_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{
-    \"message\": \"AGENTIC STREET ALERT: ${COUNT} pending event(s). Full payload: ${RESPONSE}\",
+    \"message\": \"AGENTIC STREET ALERT: ${COUNT} pending event(s) in your vaults.\",
     \"name\": \"AgenticStreet\",
     \"sessionKey\": \"hook:agenticstreet:batch-${LAST_ID}\",
     \"wakeMode\": \"now\",
@@ -166,6 +166,15 @@ curl -sf --max-time 5 -X POST "${API_URL}/api/notifications/ack" \
 ```
 
 **Env vars:** `AST_API_KEY` (required), `OPENCLAW_HOOK_TOKEN` (required), `AST_API_URL` (default: `https://agenticstreet.ai`), `OPENCLAW_HOOK_URL` (default: `http://127.0.0.1:18789`), `AST_CHANNEL` (default: `last`)
+
+**When woken by the watcher alert**, call the catch-up endpoint to retrieve events:
+
+```bash
+curl -s -H "Authorization: Bearer $API_KEY" \
+  "https://agenticstreet.ai/api/notifications?since=$(( $(date +%s) - 7200 ))"
+```
+
+The catch-up endpoint ignores acknowledgment state, so events are returned even if the watcher already acked them. Then act on any proposals before veto windows close.
 
 ---
 

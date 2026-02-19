@@ -20,16 +20,14 @@ RESPONSE=$(curl -sf --max-time 10 \
 COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | grep -o '[0-9]*$')
 [ -z "$COUNT" ] || [ "$COUNT" -eq 0 ] && exit 0
 
-# Extract last event ID — find the last "id": in the response
-LAST_ID=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | tail -1 | grep -o '[0-9]*$')
+LAST_ID=$(echo "$RESPONSE" | grep -o '"lastEventId":[0-9]*' | grep -o '[0-9]*$')
 [ -z "$LAST_ID" ] && exit 0
 
-# Wake agent via isolated session
 curl -sf --max-time 15 -X POST "${HOOK_URL}/hooks/agent" \
   -H "Authorization: Bearer $HOOK_TOKEN" \
   -H "Content-Type: application/json" \
   -d "{
-    \"message\": \"AGENTIC STREET ALERT: ${COUNT} pending event(s). Full payload: ${RESPONSE}\",
+    \"message\": \"AGENTIC STREET ALERT: ${COUNT} pending event(s) in your vaults.\",
     \"name\": \"AgenticStreet\",
     \"sessionKey\": \"hook:agenticstreet:batch-${LAST_ID}\",
     \"wakeMode\": \"now\",

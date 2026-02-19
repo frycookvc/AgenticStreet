@@ -473,7 +473,11 @@ rest.get("/notifications/pending", authMiddleware, (c) => {
   const ackFloor = getAckFloor(keyId);
   const events = getPendingEvents({ vaults, since, ackFloor, limit: 50 });
 
-  return c.json({ count: events.length, events });
+  return c.json({
+    count: events.length,
+    lastEventId: events.length > 0 ? events[events.length - 1].id : null,
+    events,
+  });
 });
 
 rest.post("/notifications/ack", authMiddleware, async (c) => {
