@@ -91,7 +91,7 @@ try {
 
 if (watcherScript) {
   const script = watcherScript;
-  app.get("/api/watcher.sh", (c) => {
+  app.get("/watcher.sh", (c) => {
     return c.body(script, 200, {
       "Content-Type": "text/x-shellscript",
       "Content-Disposition": 'attachment; filename="ast-watcher.sh"',
@@ -101,7 +101,7 @@ if (watcherScript) {
 }
 
 // --- SSE Event Notifications ---
-app.get("/api/events/stream", authMiddleware, async (c) => {
+app.get("/events/stream", authMiddleware, async (c) => {
   const keyId = c.get("keyId") as string;
   const row = getDb()
     .prepare("SELECT wallet_address FROM api_keys WHERE id = ?")
