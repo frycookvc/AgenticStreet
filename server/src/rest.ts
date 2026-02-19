@@ -475,7 +475,7 @@ rest.get("/notifications/pending", authMiddleware, (c) => {
 
   return c.json({
     count: events.length,
-    lastEventId: events.length > 0 ? events[events.length - 1].id : null,
+    lastEventId: events.length > 0 ? events[events.length - 1]!.id : null,
     events,
   });
 });
