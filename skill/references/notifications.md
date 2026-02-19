@@ -127,6 +127,7 @@ chmod +x ~/.openclaw/skills/agentic-street/ast-watcher.sh
 
 ```bash
 #!/usr/bin/env bash
+# Dependencies: curl, bash (no jq needed)
 set -euo pipefail
 
 API_KEY="${AST_API_KEY:?Set AST_API_KEY}"
@@ -139,20 +140,24 @@ RESPONSE=$(curl -sf --max-time 10 \
   -H "Authorization: Bearer $API_KEY" \
   "${API_URL}/api/notifications/pending" 2>/dev/null) || exit 0
 
-COUNT=$(echo "$RESPONSE" | jq -r '.count // 0')
-[ "$COUNT" -eq 0 ] && exit 0
+COUNT=$(echo "$RESPONSE" | grep -o '"count":[0-9]*' | grep -o '[0-9]*$')
+[ -z "$COUNT" ] || [ "$COUNT" -eq 0 ] && exit 0
 
-EVENTS=$(echo "$RESPONSE" | jq -c '.events')
-LAST_ID=$(echo "$RESPONSE" | jq -r '.events[-1].id')
+LAST_ID=$(echo "$RESPONSE" | grep -o '"id":[0-9]*' | tail -1 | grep -o '[0-9]*$')
+[ -z "$LAST_ID" ] && exit 0
 
 curl -sf --max-time 15 -X POST "${HOOK_URL}/hooks/agent" \
   -H "Authorization: Bearer $HOOK_TOKEN" \
   -H "Content-Type: application/json" \
-  -d "$(jq -n \
-    --arg msg "AGENTIC STREET ALERT: ${COUNT} pending event(s). Events: ${EVENTS}" \
-    --arg key "hook:agenticstreet:batch-${LAST_ID}" \
-    --arg ch "$CHANNEL" \
-    '{message: $msg, name: "AgenticStreet", sessionKey: $key, wakeMode: "now", deliver: true, channel: $ch, timeoutSeconds: 90}')" 2>/dev/null || true
+  -d "{
+    \"message\": \"AGENTIC STREET ALERT: ${COUNT} pending event(s). Full payload: ${RESPONSE}\",
+    \"name\": \"AgenticStreet\",
+    \"sessionKey\": \"hook:agenticstreet:batch-${LAST_ID}\",
+    \"wakeMode\": \"now\",
+    \"deliver\": true,
+    \"channel\": \"${CHANNEL}\",
+    \"timeoutSeconds\": 90
+  }" 2>/dev/null || true
 
 curl -sf --max-time 5 -X POST "${API_URL}/api/notifications/ack" \
   -H "Authorization: Bearer $API_KEY" \
