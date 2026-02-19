@@ -1,0 +1,122 @@
+@import "tailwindcss";
+
+/* === Design tokens via @theme === */
+/* Maps fundtheme-brutalist-terminal.md values to Tailwind utility classes */
+
+@theme {
+  /* Font — generates font-mono utility */
+  --font-mono: 'IBM Plex Mono', 'JetBrains Mono', 'SF Mono', 'Fira Code', 'Consolas', 'Monaco', 'Courier New', monospace;
+
+  /* Colors — generates bg-*, text-*, border-* utilities */
+
+  /* Canvas */
+  --color-canvas-base: #06080C;
+  --color-canvas-surface: #0C1018;
+  --color-canvas-elevated: #121820;
+  --color-canvas-overlay: #1A1F2A;
+  --color-canvas-modal: #1E2430;
+
+  /* Fill */
+  --color-fill-primary: #374151;
+  --color-fill-subtle: rgba(55, 65, 81, 0.5);
+  --color-fill-strong: #4B5563;
+
+  /* Text */
+  --color-text-primary: #F5F5F5;
+  --color-text-secondary: #D4D4D8;
+  --color-text-tertiary: #6B7280;
+  --color-text-muted: #374151;
+
+  /* Primary (Phosphor Green) */
+  --color-primary: #5EECC0;
+  --color-primary-hover: #4DD9B0;
+  --color-primary-active: #3CC6A0;
+  --color-primary-surface: rgba(94, 236, 192, 0.06);
+  --color-primary-border: rgba(94, 236, 192, 0.20);
+  --color-primary-text: #06080C;
+
+  /* Accent (Amber) */
+  --color-accent: #E8B85E;
+  --color-accent-hover: #D4A64E;
+  --color-accent-active: #C0943E;
+  --color-accent-surface: rgba(232, 184, 94, 0.06);
+  --color-accent-border: rgba(232, 184, 94, 0.20);
+  --color-accent-text: #06080C;
+
+  /* Semantic */
+  --color-positive: #5EECC0;
+  --color-negative: #E85E6C;
+  --color-warning: #E8B85E;
+  --color-info: #5EA8E8;
+
+  /* Borders — used via border-border-subtle etc. */
+  --color-border-subtle: rgba(212, 212, 216, 0.08);
+  --color-border-default: rgba(212, 212, 216, 0.15);
+  --color-border-strong: rgba(212, 212, 216, 0.25);
+  --color-border-accent: rgba(94, 236, 192, 0.30);
+
+  /* Shadows */
+  --shadow-elevation-xs: 0 1px 2px rgba(0, 0, 0, 0.30);
+  --shadow-elevation-sm: 0 2px 4px rgba(0, 0, 0, 0.35);
+  --shadow-elevation-md: 0 4px 8px rgba(0, 0, 0, 0.40);
+  --shadow-elevation-lg: 0 8px 16px rgba(0, 0, 0, 0.45);
+
+  /* Border radius — 2px globally, brutalist terminal */
+  --radius: 0.125rem;
+  --radius-sm: 0.125rem;
+  --radius-md: 0.125rem;
+  --radius-lg: 0.125rem;
+  --radius-xl: 0.125rem;
+
+  /* Transitions */
+  --ease-terminal: cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* === Base styles (not @theme — these don't generate utilities) === */
+
+@layer base {
+  html { font-size: 14px; scroll-padding-top: 6rem; }
+  @media (min-width: 640px) { html { font-size: 15px; } }
+  @media (min-width: 1024px) { html { font-size: 16px; } }
+
+  body {
+    font-family: var(--font-mono);
+    background-color: var(--color-canvas-base);
+    color: var(--color-text-primary);
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @keyframes ticker-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  @keyframes boot-reveal {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes crt-flicker {
+    0%, 100% { opacity: 0; }
+    3% { opacity: 1; }
+    6% { opacity: 0; }
+    48% { opacity: 0; }
+    50% { opacity: 0.6; }
+    52% { opacity: 0; }
+    97% { opacity: 0; }
+    98% { opacity: 0.4; }
+    99% { opacity: 0; }
+  }
+
+  @keyframes crt-blink {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 0; }
+  }
+}

@@ -1,0 +1,129 @@
+########################################
+# Environment / secrets
+########################################
+.env
+.env.local
+.env.*
+.env.*.local
+!.env.example
+.venv/
+contracts/.venv/
+contracts/.venv-mythril/
+
+########################################
+# SSH keys (if ever copied in)
+########################################
+.ssh/
+
+########################################
+# Dependencies
+########################################
+node_modules/
+package-lock.json
+.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+########################################
+# Testing
+########################################
+coverage/
+
+########################################
+# Next.js / build outputs
+########################################
+.next/
+out/
+build/
+dist/
+
+########################################
+# Caches / compiler output
+########################################
+cache/
+server/data/
+data/
+*.db
+*.db-wal
+*.db-shm
+# (Foundry also uses these in contracts/)
+out/
+
+########################################
+# Foundry broadcast logs
+########################################
+broadcast/
+contracts/broadcast/*/31337/
+contracts/broadcast/**/dry-run/
+contracts/cache/
+contracts/out/
+*contracts/docs/
+
+########################################
+# Logs
+########################################
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+########################################
+# Vercel
+########################################
+.vercel/
+
+########################################
+# TypeScript
+########################################
+*.tsbuildinfo
+next-env.d.ts
+
+########################################
+# Contract libaries 
+########################################
+contracts/lib/
+contracts/crytic-export/
+contracts/.github/
+contracts/old.gitignore
+contracts/verify-factory.json
+contracts/verify-raise.json
+contracts/baseSepoliaUniswap.md
+contracts/BaseWhitelistContracts.env
+contracts/echidna.yaml
+contracts/test/
+contracts/security/
+contracts/.venv-mythril/
+
+########################################
+# OS / misc
+########################################
+.DS_Store
+*.pem
+.claude/
+.agents/
+.vscode/
+tmp/
+changelog/
+servercorrupt/
+########################################
+# Skills — ignore example skill files, keep our reference docs
+########################################
+skill/references/*skill.md
+.claude-plugin/
+
+########################################
+# Docker
+########################################
+docker-compose.override.yml
+
+########################################
+# Test scripts
+########################################
+d2-test.sh
+server/test/
+frontend/.next/
+server/dist/

@@ -1,0 +1,6 @@
+packages:
+  - contracts
+  - server
+  - frontend
+
+approveBuilds: better-sqlite3

@@ -1,0 +1,40 @@
+docs.agenticstreet.ai {
+    reverse_proxy frontend:3000
+}
+
+agenticstreet.ai {
+    handle /docs {
+        redir https://docs.agenticstreet.ai permanent
+    }
+    handle_path /api/* {
+        reverse_proxy server:3001
+    }
+    handle /mcp {
+        reverse_proxy server:3001
+    }
+    handle /skill.md {
+        reverse_proxy server:3001
+    }
+    handle /skill/* {
+        reverse_proxy server:3001
+    }
+    handle /auth/* {
+        reverse_proxy server:3001
+    }
+    handle /admin/* {
+        reverse_proxy server:3001
+    }
+    handle /webhooks/* {
+        reverse_proxy server:3001
+    }
+    handle /health {
+        reverse_proxy server:3001
+    }
+    handle {
+        reverse_proxy frontend:3000
+    }
+}
+
+www.agenticstreet.ai {
+    redir https://agenticstreet.ai{uri} permanent
+}

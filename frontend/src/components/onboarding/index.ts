@@ -1,0 +1,1 @@
+export { OnboardingCard } from './OnboardingCard';

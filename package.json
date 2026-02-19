@@ -1,0 +1,22 @@
+{
+  "name": "agentic-street",
+  "private": true,
+  "scripts": {
+    "build": "pnpm -r build",
+    "test": "pnpm -r test",
+    "lint": "biome check .",
+    "format": "biome format --write ."
+  },
+  "devDependencies": {
+    "@biomejs/biome": "latest"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "sharp", "unrs-resolver", "better-sqlite3"],
+    "overrides": {
+      "wagmi": "^2.19.5"
+    }
+  }
+}

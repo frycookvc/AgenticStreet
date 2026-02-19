@@ -1,0 +1,38 @@
+{
+  "chain": "base",
+  "chainId": 8453,
+  "deployer": "",
+  "contracts": {
+    "raiseImplementation": "",
+    "vaultImplementation": "",
+    "factoryImplementation": "",
+    "factoryProxy": "",
+    "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
+  },
+  "adapters": {
+    "uniswapV3Adapter": "",
+    "aaveV3Adapter": "",
+    "aerodromeAdapter": "",
+    "morphoAdapter": "",
+    "curveAdapter": "",
+    "anzenAdapter": "",
+    "compoundV3Adapter": "",
+    "moonwellAdapter": "",
+    "fluidAdapter": ""
+  },
+  "protocolAddresses": {
+    "uniswapV3SwapRouter": "",
+    "aaveV3Pool": "",
+    "aerodromeRouter": "",
+    "aerodromePoolFactory": "",
+    "morphoBlue": "",
+    "curveRouter": "",
+    "anzenVault": "",
+    "anzenUsdz": "",
+    "anzenSusdz": ""
+  },
+  "funds": [],
+  "deployedAt": "",
+  "lastUpgrade": "",
+  "lastUpgradeNote": ""
+}
