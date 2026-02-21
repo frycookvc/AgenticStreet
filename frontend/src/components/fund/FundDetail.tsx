@@ -1832,7 +1832,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
 
       {/* ── Two-column layout (card + sidebar aligned) ─────────── */}
       <div
-        className={`grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(300px,2fr)] lg:grid-rows-[auto_1fr] gap-4 lg:gap-8 max-w-[1400px] transition-opacity duration-300 ${cardVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(300px,2fr)] lg:grid-rows-[auto_1fr] lg:overflow-hidden gap-4 lg:gap-8 max-w-[1400px] transition-opacity duration-300 ${cardVisible ? 'opacity-100' : 'opacity-0'}`}
       >
 
         {/* Progress bar — first on mobile, right column row 1 on desktop */}
