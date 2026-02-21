@@ -9,13 +9,13 @@ import {FundFactory} from "../src/FundFactory.sol";
 ///         Asserts all factory state matches expected values. No broadcast.
 contract VerifyDeployment is Script {
     // ── Deployed addresses ──────────────────────────────────────
-    address constant PROXY = 0xf5186e5792a1776707b828661a9cc172daB39A02;
-    address constant RAISE_IMPL = 0x6b3AB92989fcc2A6EC21Fe2359fCf198d7460dCf;
-    address constant VAULT_IMPL = 0x06b3e9A2883427360127047b3B3D90700Eb5350f;
+    address constant PROXY = 0x5e4EA61A4cC865b4ebDdDE788be5692cD0d05D60;
+    address constant RAISE_IMPL = 0xb3858CCa530A4aC34a5f3B732F2470fF5A5b1103;
+    address constant VAULT_IMPL = 0x86c323e243975F043B56ea18Ce28ae8243D5eD69;
 
     // ── Expected values ─────────────────────────────────────────
     address constant EXPECTED_OWNER = 0x28cD88399415ac8E2d5ac9E028d32556bC3aF8b6;
-    address constant EXPECTED_TREASURY = 0x936Add4126B1e62F0efCBc6617B32e586Cad8b36;
+    address constant EXPECTED_TREASURY = 0x28cD88399415ac8E2d5ac9E028d32556bC3aF8b6;
     address constant EXPECTED_USDC = 0x036CbD53842c5426634e7929541eC2318f3dCF7e;
 
     function run() external view {

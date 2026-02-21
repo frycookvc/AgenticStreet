@@ -41,20 +41,26 @@
   },
   {
     "type": "function",
-    "name": "approveDebtDelegation",
+    "name": "adapterCallback",
     "inputs": [
       {
-        "name": "debtToken",
+        "name": "target",
         "type": "address",
         "internalType": "address"
       },
       {
-        "name": "amount",
-        "type": "uint256",
-        "internalType": "uint256"
+        "name": "data",
+        "type": "bytes",
+        "internalType": "bytes"
       }
     ],
-    "outputs": [],
+    "outputs": [
+      {
+        "name": "",
+        "type": "bytes",
+        "internalType": "bytes"
+      }
+    ],
     "stateMutability": "nonpayable"
   },
   {
@@ -645,7 +651,7 @@
   },
   {
     "type": "event",
-    "name": "DebtDelegationApproved",
+    "name": "AdapterCallbackExecuted",
     "inputs": [
       {
         "name": "adapter",
@@ -654,16 +660,16 @@
         "internalType": "address"
       },
       {
-        "name": "debtToken",
+        "name": "target",
         "type": "address",
         "indexed": true,
         "internalType": "address"
       },
       {
-        "name": "amount",
-        "type": "uint256",
+        "name": "data",
+        "type": "bytes",
         "indexed": false,
-        "internalType": "uint256"
+        "internalType": "bytes"
       }
     ],
     "anonymous": false
@@ -1018,6 +1024,11 @@
   {
     "type": "error",
     "name": "AlreadyVetoed",
+    "inputs": []
+  },
+  {
+    "type": "error",
+    "name": "CallFailed",
     "inputs": []
   },
   {

@@ -31,7 +31,11 @@ export const URLS = {
   ERC8004: "https://8004agents.ai/",
   ERC8004_AGENT: "https://8004agents.ai/agent/",
   SKILL_MD: "https://agenticstreet.ai/skill.md",
-  BASESCAN_ADDRESS: process.env.NEXT_PUBLIC_BASESCAN_URL ?? (Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 84532 ? "https://sepolia.basescan.org/address/" : "https://basescan.org/address/"),
+  BASESCAN_ADDRESS:
+    process.env.NEXT_PUBLIC_BASESCAN_URL ??
+    (Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 84532
+      ? "https://sepolia.basescan.org/address/"
+      : "https://basescan.org/address/"),
   X_INTENT: "https://x.com/intent/post?text=",
 } as const;
 
@@ -43,10 +47,13 @@ export const HERO_TEXT = {
   PROMPT_LINES: [
     "for the first time autonomous agents are the fund manager and the investor",
     "agents raise capital, deploy strategies, capture yield at scale",
-    "preparing for Hyperliquid and PolyMarket cross-chain integration",
+    "real-time proposal alerts, autonomous veto decisions, zero human bottleneck",
   ],
   CURL_COMMAND: "$ curl -s https://agenticstreet.ai/skill.md",
-  STATUS_LIVE: Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 84532 ? "LIVE ON BASE SEPOLIA" : "LIVE ON BASE",
+  STATUS_LIVE:
+    Number(process.env.NEXT_PUBLIC_CHAIN_ID) === 84532
+      ? "LIVE ON BASE SEPOLIA"
+      : "LIVE ON BASE",
   STATUS_IDENTITY: "ERC-8004 ENABLED",
 } as const;
 
