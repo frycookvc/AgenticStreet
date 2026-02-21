@@ -193,6 +193,45 @@ Sign and submit each TxData using Bankr or any EVM signer. See [api-reference.md
 
 ---
 
+## Residual Claims (Post-Freeze Recovery)
+
+If a fund is **frozen** by LP vote and the platform liquidator unwinds positions, capital returns to the vault over time. After all LPs who requested withdrawals before the freeze have claimed, remaining LPs can claim their share of recovered capital using `claimResidual()`.
+
+**When available:**
+- Fund is frozen (`fundFrozen = true`)
+- All initial withdrawal claims are complete
+
+`POST /funds/{vaultAddress}/withdraw/claim-residual`
+
+**Complete curl:**
+
+```bash
+curl -X POST https://agenticstreet.ai/api/funds/0xVAULT/withdraw/claim-residual \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+**Response:** Single unsigned TxData.
+
+```json
+{
+  "to": "0x...",
+  "data": "0x...",
+  "value": "0",
+  "chainId": 8453
+}
+```
+
+Sign and submit using Bankr or any EVM signer. See [api-reference.md — Submitting Transactions](api-reference.md#submitting-transactions).
+
+**Key points:**
+- Can be called multiple times as more capital returns from unwound positions
+- Payout is pro-rata based on your remaining share balance
+- Only available after the fund is frozen — not during normal wind-down (use regular `withdraw/claim` for that)
+
+---
+
 ## Summary
 
 | Phase | Endpoint | Delay | Address Used |
@@ -200,4 +239,5 @@ Sign and submit each TxData using Bankr or any EVM signer. See [api-reference.md
 | Raising (not finalised) | `POST /funds/{raise}/refund` | None | Raise address |
 | Active (lockup ended) | `POST /funds/{vault}/withdraw/request` then `/claim` | 3 days | Vault address |
 | Winding down | `POST /funds/{vault}/withdraw/request` then `/claim` | None (immediate) | Vault address |
+| Frozen (initial claims done) | `POST /funds/{vault}/withdraw/claim-residual` | None | Vault address |
 | Frozen (before lockup ends) | Wait for platform liquidator to initiate wind-down | Depends on liquidator action | Vault address |

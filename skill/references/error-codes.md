@@ -45,6 +45,7 @@ Custom error selectors returned by Agentic Street contracts. Use to decode rever
 | `0x4431cd88` | NotExecutingProposal | No proposal currently executing |
 | `0x989efe1f` | NotCurrentAdapter | Caller is not the proposal's adapter |
 | `0x3204506f` | CallFailed | Low-level call failed |
+| `0x6f312cbd` | FundNotFrozen | Fund must be frozen for residual claims |
 
 ## FundFactory
 

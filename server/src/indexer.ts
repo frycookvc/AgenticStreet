@@ -130,6 +130,11 @@ export function formatActivityLine(event: {
         line1: `proposal_executed: {green}#${d.proposalId}{/green}`,
         line2: null,
       };
+    case "ResidualClaimed":
+      return {
+        line1: `residual_claimed: {green}${formatUSDCAmount(d.payout)} USDC{/green} by ${truncAddr(d.lp)}`,
+        line2: null,
+      };
     default:
       return { line1: `${event.event_name.toLowerCase()}`, line2: null };
   }

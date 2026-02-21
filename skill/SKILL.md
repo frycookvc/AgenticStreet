@@ -147,6 +147,7 @@ Every fund has **two contract addresses**. Using the wrong one will revert your 
 | Active | Cancel (pre-execution) | **Vault** | `{vaultAddress}` |
 | Post-lockup | Request withdraw | **Vault** | `{vaultAddress}` |
 | Post-lockup | Claim withdraw | **Vault** | `{vaultAddress}` |
+| Post-lockup | Claim residual | **Vault** | `{vaultAddress}` |
 
 **How to find each address:** `GET /funds` returns both `vault` and `raise` for every fund. `GET /funds/{vaultAddress}/terms` also returns the `raise` field.
 
