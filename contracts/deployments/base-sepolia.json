@@ -4,7 +4,7 @@
   "deployer": "0x28cD88399415ac8E2d5ac9E028d32556bC3aF8b6",
   "contracts": {
     "raiseImplementation": "0xb3858CCa530A4aC34a5f3B732F2470fF5A5b1103",
-    "vaultImplementation": "0x86c323e243975F043B56ea18Ce28ae8243D5eD69",
+    "vaultImplementation": "0x05D8e89018Ee3Cd28f0B802b9da833Cf9E054a8a",
     "factoryImplementation": "0x71016Fc73f5548BC50C621E4A5e309dE34E78583",
     "factoryProxy": "0x5e4EA61A4cC865b4ebDdDE788be5692cD0d05D60",
     "usdc": "0x036CbD53842c5426634e7929541eC2318f3dCF7e"
@@ -34,7 +34,8 @@
       "0x38df672E36b55D0fcf9958eE677d9728e72404BF",
       "0x68cf101234D434b469616Bc511AafeACb2C91ccB",
       "0x7a862ca499bEb8F0CCF4423A9FB4fCAc8ED3316a",
-      "0x910596085c5940866898A1B573105C7FB09F83bD"
+      "0x910596085c5940866898A1B573105C7FB09F83bD",
+      "0x86c323e243975F043B56ea18Ce28ae8243D5eD69"
     ],
     "factoryImplementation": [
       "0x6da91e48dd4b2b34a658f046c6fc0b3042ff59aa",
@@ -61,6 +62,6 @@
     }
   },
   "deployedAt": "2026-02-20",
-  "lastUpgrade": "2026-02-20",
-  "lastUpgradeNote": "Full redeployment: new factory proxy with correct treasury (deployer), implementations, and adapters. protocolFeeBps set to 100."
+  "lastUpgrade": "2026-02-21",
+  "lastUpgradeNote": "FundVault implementation upgraded: added claimResidual() for post-wind-down capital recovery with cumulative accounting."
 }
