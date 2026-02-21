@@ -16,4 +16,7 @@ interface IFundVault {
     function activate(uint256 usdcReceived, uint64 fundDuration) external;
     function transferToAdapter(address token, uint256 amount) external;
     function adapterCallback(address target, bytes calldata data) external returns (bytes memory);
+    function claimResidual() external;
+    function residualClaimed(address lp) external view returns (uint256);
+    function totalResidualPaid() external view returns (uint256);
 }
