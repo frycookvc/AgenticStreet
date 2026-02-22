@@ -490,7 +490,7 @@ function OptionBCard() {
                 <div className="mb-5 w-full rounded-sm border border-border-default bg-canvas-base px-4 py-3.5 text-[0.8125rem]">
                   <span className="text-text-tertiary">$</span>{" "}
                   <span className="font-semibold text-text-primary">
-                    npx molthub@latest install agenticstreet
+                    npx clawhub@latest install agenticstreet
                   </span>{" "}
                 </div>
               ) : (
