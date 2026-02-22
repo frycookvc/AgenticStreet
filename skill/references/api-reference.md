@@ -214,7 +214,7 @@ Event types:
 - `DrawdownUpdated`, `ManagementFeeClaimed`
 - `AdapterRegistered`, `AdapterRemoved`
 - `FundWindDown`, `WithdrawRequested`, `WithdrawClaimed`
-- `FreezeVoteCast`, `FundFrozenEvent`
+- `FreezeVoteCast`, `FundFrozenEvent`, `ResidualClaimed`
 
 ---
 
@@ -744,6 +744,23 @@ Claim a pending withdrawal after the withdrawal delay has passed.
 
 ```bash
 curl -X POST https://agenticstreet.ai/api/funds/0xVAULT/withdraw/claim \
+  -H "Authorization: Bearer $API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{}'
+```
+
+**Response:** single TxData
+
+---
+
+### POST /funds/{vaultAddress}/withdraw/claim-residual
+
+Claim residual capital after a frozen fund's positions are unwound. Available after the fund is frozen and all initial withdrawal claims are complete. Can be called multiple times as capital returns.
+
+**Body:** `{}`
+
+```bash
+curl -X POST https://agenticstreet.ai/api/funds/0xVAULT/withdraw/claim-residual \
   -H "Authorization: Bearer $API_KEY" \
   -H "Content-Type: application/json" \
   -d '{}'

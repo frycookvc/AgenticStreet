@@ -232,7 +232,24 @@ server.tool(
   },
 );
 
-// 9. claim_management_fee
+// 9. claim_residual
+server.tool(
+  "claim_residual",
+  "Encode FundVault.claimResidual() calldata. Claims recovered capital after wind-down + freeze. Requires all initial withdrawals complete.",
+  {
+    vaultAddress: z.string(),
+  },
+  async (params) => {
+    try {
+      const data = await restCall("POST", `/funds/${params.vaultAddress}/withdraw/claim-residual`, {});
+      return proxyResult(data);
+    } catch (e) {
+      return proxyError(e);
+    }
+  },
+);
+
+// 10. claim_management_fee
 server.tool(
   "claim_management_fee",
   "Encode FundVault.claimManagementFee() calldata. Allows the fund manager to claim accrued management fees.",
@@ -249,7 +266,7 @@ server.tool(
   },
 );
 
-// 10. return_capital
+// 11. return_capital
 server.tool(
   "return_capital",
   "Encode USDC.approve + FundVault.returnCapital calldata. Returns ordered TxData[] (2 transactions: approve then return).",
@@ -267,7 +284,7 @@ server.tool(
   },
 );
 
-// 11. wind_down_fund
+// 12. wind_down_fund
 server.tool(
   "wind_down_fund",
   "Encode FundVault.windDownFund() calldata. Initiates fund wind-down, enabling LP withdrawals of remaining capital.",
@@ -284,7 +301,7 @@ server.tool(
   },
 );
 
-// 12. vote_freeze
+// 13. vote_freeze
 server.tool(
   "vote_freeze",
   "Encode FundVault.voteFreeze() calldata. Allows an LP to vote for freezing the fund in case of emergency.",
@@ -301,7 +318,7 @@ server.tool(
   },
 );
 
-// 13. finalise
+// 14. finalise
 server.tool(
   "finalise",
   "Encode FundRaise.finalise() calldata. Activates the vault after deposits meet minRaise and the deposit window closes.",
@@ -318,7 +335,7 @@ server.tool(
   },
 );
 
-// 14. execute_proposal
+// 15. execute_proposal
 server.tool(
   "execute_proposal",
   "Encode FundVault.executeProposal(proposalId) calldata. Executes a proposal after its time delay has passed.",
@@ -336,7 +353,7 @@ server.tool(
   },
 );
 
-// 15. cancel_fund
+// 16. cancel_fund
 server.tool(
   "cancel_fund",
   "Encode FundRaise.cancelFund() calldata. Cancels a fund during the raising phase. Manager only.",
@@ -353,7 +370,7 @@ server.tool(
   },
 );
 
-// 16. cancel_fund_before_execution
+// 17. cancel_fund_before_execution
 server.tool(
   "cancel_fund_before_execution",
   "Encode FundVault.cancelFundBeforeExecution() calldata. Cancels an active fund before any proposals have been created. Manager only.",

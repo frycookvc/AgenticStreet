@@ -178,6 +178,8 @@ else:
   allowance = initialDeposits / 2
 ```
 
+`initialDeposits` is the USDC the vault actually received — after any protocol fee deduction at finalisation. It is less than `totalDeposited`. Use `GET /funds/{vault}/stats` to get the exact value; do not calculate it from `totalDeposited`.
+
 The contract tracks `cumulativeDrawn` -- the total USDC that has left the vault across all executed proposals. When a proposal executes and the vault's USDC balance decreases, `cumulativeDrawn` increases by the difference. If `cumulativeDrawn > allowance`, the proposal execution **reverts**.
 
 ### Cumulative Means Cumulative

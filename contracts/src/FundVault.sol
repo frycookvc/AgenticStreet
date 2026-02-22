@@ -37,6 +37,7 @@ error InvalidAdapter();
 error NotExecutingProposal();
 error NotCurrentAdapter();
 error CallFailed();
+error FundNotFrozen();
 
 contract FundVault is IFundVault, Initializable, ReentrancyGuard {
     using SafeERC20 for IERC20;
@@ -108,6 +109,7 @@ contract FundVault is IFundVault, Initializable, ReentrancyGuard {
     event FundCancelledPreExecution();
     event TokenTransferredToAdapter(address indexed adapter, address indexed token, uint256 amount);
     event AdapterCallbackExecuted(address indexed adapter, address indexed target, bytes data);
+    event ResidualClaimed(address indexed lp, uint256 shares, uint256 payout);
 
     // ──────────────────────────────────────────
     //  State (set once in initialize, effectively immutable)
@@ -159,6 +161,10 @@ contract FundVault is IFundVault, Initializable, ReentrancyGuard {
     mapping(address => WithdrawRequest) public withdrawRequests;
     uint256 public totalSharesBurned;
     mapping(address => uint256) public sharesBurnedByUser;
+
+    // Residual claims
+    mapping(address => uint256) public residualClaimed;
+    uint256 public totalResidualPaid;
 
     // Adapter execution guard — non-zero address means execution in progress
     address private _currentAdapter;
@@ -543,6 +549,37 @@ contract FundVault is IFundVault, Initializable, ReentrancyGuard {
         usdc.safeTransfer(msg.sender, usdcOwed);
 
         emit WithdrawClaimed(msg.sender, shares, usdcOwed);
+    }
+
+    // ──────────────────────────────────────────
+    //  claimResidual
+    // ──────────────────────────────────────────
+
+    function claimResidual() external nonReentrant {
+        if (!fundWindingDown) revert WithdrawNotClaimable();
+        if (!fundFrozen) revert FundNotFrozen();
+
+        uint256 totalShares = IFundRaise(raiseContract).totalShares();
+        if (totalSharesBurned < totalShares) revert WithdrawNotClaimable();
+
+        uint256 myShares = sharesBurnedByUser[msg.sender];
+        if (myShares == 0) revert InsufficientShares();
+
+        uint256 totalResidualEver = usdc.balanceOf(address(this)) + totalResidualPaid;
+        uint256 myCumulativeEntitlement = (myShares * totalResidualEver) / totalSharesBurned;
+
+        if (myCumulativeEntitlement <= residualClaimed[msg.sender]) revert InsufficientShares();
+        uint256 payout = myCumulativeEntitlement - residualClaimed[msg.sender];
+
+        uint256 available = usdc.balanceOf(address(this));
+        if (payout > available) payout = available;
+
+        residualClaimed[msg.sender] = residualClaimed[msg.sender] + payout;
+        totalResidualPaid += payout;
+
+        usdc.safeTransfer(msg.sender, payout);
+
+        emit ResidualClaimed(msg.sender, myShares, payout);
     }
 
     // ──────────────────────────────────────────

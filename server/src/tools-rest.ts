@@ -11,6 +11,7 @@ import { proposeExecutionHandler, proposeExecutionSchema } from "./tools/propose
 import { vetoExecutionHandler, vetoExecutionSchema } from "./tools/vetoExecution.js";
 import { requestWithdrawHandler, requestWithdrawSchema } from "./tools/requestWithdraw.js";
 import { claimWithdrawHandler, claimWithdrawSchema } from "./tools/claimWithdraw.js";
+import { claimResidualHandler, claimResidualSchema } from "./tools/claimResidual.js";
 import { claimManagementFeeHandler, claimManagementFeeSchema } from "./tools/claimManagementFee.js";
 
 import { windDownFundHandler, windDownFundSchema } from "./tools/windDownFund.js";
@@ -248,6 +249,34 @@ toolsRest.post("/funds/:vault/withdraw/claim", async (c) => {
     }
 
     const result = claimWithdrawHandler(parsed.data);
+    return c.json(result);
+  } catch (e) {
+    const message = e instanceof Error ? e.message : String(e);
+    return c.json({ error: message }, 400);
+  }
+});
+
+/**
+ * POST /funds/:vault/withdraw/claim-residual
+ * Claim residual capital after wind-down + freeze
+ * Path param: vault (vaultAddress)
+ * Body: none (uses msg.sender)
+ */
+toolsRest.post("/funds/:vault/withdraw/claim-residual", async (c) => {
+  try {
+    const body = await c.req.json().catch(() => ({})); // Allow empty body
+    // Merge path param into the body for validation
+    const input = { ...body, vaultAddress: c.req.param("vault") };
+
+    // Validate with Zod
+    const schema = z.object(claimResidualSchema);
+    const parsed = schema.safeParse(input);
+    if (!parsed.success) {
+      const errorMsg = parsed.error.issues[0]?.message ?? "Validation failed";
+      return c.json({ error: errorMsg }, 400);
+    }
+
+    const result = claimResidualHandler(parsed.data);
     return c.json(result);
   } catch (e) {
     const message = e instanceof Error ? e.message : String(e);

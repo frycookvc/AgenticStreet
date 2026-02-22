@@ -12,7 +12,7 @@ import {FundVault} from "../src/FundVault.sol";
 contract DeployBaseSepolia is Script {
     // ── Testnet addresses (hardcoded) ────────────────────────────
     address constant USDC = 0x036CbD53842c5426634e7929541eC2318f3dCF7e;
-    address constant TREASURY = 0x936Add4126B1e62F0efCBc6617B32e586Cad8b36;
+    address constant TREASURY = 0x28cD88399415ac8E2d5ac9E028d32556bC3aF8b6;
     address constant PLATFORM_LIQUIDATOR = 0x28cD88399415ac8E2d5ac9E028d32556bC3aF8b6;
     uint64 constant PROPOSAL_DELAY = 300; // 5 minutes
 

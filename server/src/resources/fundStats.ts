@@ -53,6 +53,12 @@ export async function getFundStats(vaultAddress: string): Promise<FundStatsData>
     }
   }
 
+  // Active fund with missing activation params — fall through to Path C
+  if (fund && !["raising", "cancelled"].includes(fund.status) && fund.initial_deposits == null) {
+    logger.warn({ event: "fund_stats_missing_activation_params", vault: vaultAddress });
+    return getFundStatsPathC(vaultAddress);
+  }
+
   // Path B: raising/cancelled fund with deposit_end cached (1 RPC call)
   if (fund?.deposit_end != null) {
     logger.debug({ event: "fund_stats_path_b", vault: vaultAddress });
@@ -155,6 +161,14 @@ async function getFundStatsPathB(vaultAddress: string, fund: FundRecord): Promis
   } else {
     const now = Math.floor(Date.now() / 1000);
     if (fund.deposit_end! < now && fund.status === "raising") {
+      const finalised = await readContractWithRetry({
+        address: fund.raise as `0x${string}`,
+        abi: FundRaiseABI,
+        functionName: "finalised",
+      }) as boolean;
+      if (finalised) {
+        return getFundStatsPathC(vaultAddress);
+      }
       status = "failed";
     } else {
       status = "raising";

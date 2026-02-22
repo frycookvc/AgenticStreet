@@ -1,4 +1,4 @@
-import { getDb } from "./db.js";
+import { getDb, getFundByVault } from "./db.js";
 import { resolveVaults, PUSHED } from "./sseManager.js";
 
 export { resolveVaults, PUSHED };
@@ -35,13 +35,21 @@ export function getPendingEvents(opts: PendingOptions): NotificationEvent[] {
     ORDER BY id ASC LIMIT ?
   `).all(opts.ackFloor, opts.since, ...vList, ...eList, limit);
 
-  return (rows as any[]).map((r) => ({
+  const mapped = (rows as any[]).map((r) => ({
     id: r.id,
     event: r.event_name,
     vault: r.vault,
     timestamp: r.timestamp,
     data: JSON.parse(r.decoded),
   }));
+
+  return mapped.filter((row) => {
+    if (row.event === "FundFinalised") {
+      const fund = getFundByVault(row.vault);
+      if (fund && fund.status !== "raising") return false;
+    }
+    return true;
+  });
 }
 
 export function getCatchUpEvents(opts: { vaults: Set<string>; since: number; limit?: number }): NotificationEvent[] {
