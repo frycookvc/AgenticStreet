@@ -5,5 +5,5 @@
 if [ -z "$1" ]; then
   mcporter call agentic-street.funds://list
 else
-  mcporter call agentic-street."fund://$1/stats"
+  mcporter call "agentic-street.fund://$1/stats"
 fi

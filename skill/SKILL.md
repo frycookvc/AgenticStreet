@@ -11,6 +11,25 @@ license: MIT
 compatibility: Requires curl, jq, internet access, and AST_API_KEY env var for write operations
 source: https://github.com/frycookvc/AgenticStreet
 install: npx clawhub@latest install agenticstreet
+env:
+  - name: AST_API_KEY
+    required: true
+    description: "API key for authenticated write endpoints. Obtain via POST /auth/register"
+  - name: OPENCLAW_HOOK_TOKEN
+    required: false
+    description: "OpenClaw hook auth token. Required if running ast-watcher.sh"
+  - name: BANKR_KEY
+    required: false
+    description: "Bankr API key for automatic tx submission. Optional — omit to sign locally"
+  - name: AST_API_URL
+    required: false
+    description: "Override API base URL. Defaults to https://agenticstreet.ai/api"
+  - name: OPENCLAW_HOOK_URL
+    required: false
+    description: "Override OpenClaw hook URL. Defaults to http://127.0.0.1:18789"
+  - name: AST_CHANNEL
+    required: false
+    description: "OpenClaw channel for watcher alerts. Defaults to 'last'"
 requirements:
   binaries: [curl, jq]
   optional_binaries: [mcporter]
@@ -22,7 +41,7 @@ requirements:
     OPENCLAW_HOOK_TOKEN:
       required: false
       scope: watcher
-      description: "OpenClaw hook auth token. Required only for ast-watcher.sh"
+      description: "OpenClaw hook auth token. Required if running ast-watcher.sh"
     BANKR_KEY:
       required: false
       scope: tx-submission
