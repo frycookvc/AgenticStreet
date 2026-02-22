@@ -1,38 +1,44 @@
 {
   "chain": "base",
   "chainId": 8453,
-  "deployer": "",
+  "deployer": "0x436ec8610ff4CEc739653ac0C8Dfb4F60DeF7B31",
   "contracts": {
-    "raiseImplementation": "",
-    "vaultImplementation": "",
-    "factoryImplementation": "",
-    "factoryProxy": "",
+    "raiseImplementation": "0x6c1ced708991c85d765b0829931200a6c8a71cc5",
+    "vaultImplementation": "0x1a2967841682b440a8DD0cd87Fa79C501e30Ba15",
+    "factoryImplementation": "0x9dCcAC8F7eD658D1241d0BEEfEE1257190728D1A",
+    "factoryProxy": "0x974969ec724AEf1FCdA5EA3856D6a4743E1B2548",
     "usdc": "0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913"
   },
   "adapters": {
-    "uniswapV3Adapter": "",
-    "aaveV3Adapter": "",
-    "aerodromeAdapter": "",
-    "morphoAdapter": "",
-    "curveAdapter": "",
-    "anzenAdapter": "",
-    "compoundV3Adapter": "",
-    "moonwellAdapter": "",
-    "fluidAdapter": ""
+    "uniswapV3Adapter": "0x80a4840f92D19A8A9304688fA718676F55d54c60",
+    "aaveV3Adapter": "0xc8889b20B766211e84A06c9C64543e32a0f6bE95",
+    "aerodromeAdapter": "0x2385e8e89Bd44a41F321B4401278f70463aD616A",
+    "morphoAdapter": "0xDA546216e06A51769895722c04E1B10E584Fb4a8",
+    "curveAdapter": "0x0e82f5172F88ff0F9a9Cd2d09a0aBe70FBE5a330",
+    "anzenAdapter": "0x37b7030EE82F44A8b67508C1a23Cda6D8ca6C286",
+    "compoundV3Adapter": "0x68c6E6005698543B88c1a2154caCC961e14E608d",
+    "moonwellAdapter": "0x5e5f1f1250503da419200cc78846982C76Ffbb76",
+    "fluidAdapter": "0xD38E0e9158f61C7eF7260e62BFa396B79d2aC764"
   },
   "protocolAddresses": {
-    "uniswapV3SwapRouter": "",
-    "aaveV3Pool": "",
-    "aerodromeRouter": "",
-    "aerodromePoolFactory": "",
-    "morphoBlue": "",
-    "curveRouter": "",
-    "anzenVault": "",
-    "anzenUsdz": "",
-    "anzenSusdz": ""
+    "uniswapV3SwapRouter": "0x2626664c2603336E57B271c5C0b26F421741e481",
+    "aaveV3Pool": "0xA238Dd80C259a72e81d7e4664a9801593F98d1c5",
+    "aerodromeRouter": "0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43",
+    "aerodromePoolFactory": "0x420DD381b31aEf6683db6B902084cB0FFECe40Da",
+    "morphoBlue": "0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb",
+    "curveRouter": "0xd6681e74eea20d196c15038c580f721ef2ab6320",
+    "anzenVault": "0xd4cd16f8470ad3d72d06e344f2997d9e59cbbaac",
+    "anzenUsdz": "0x04D5ddf5f3a8939889F11E97f8c4BB48317F1938",
+    "anzenSusdz": "0xe31eE12bDFDD0573D634124611e85338e2cBF0cF"
+  },
+  "config": {
+    "treasury": "0xD64fC168140c0728A0D9A7aec8Bc38Fea864cC18",
+    "platformLiquidator": "0xD64fC168140c0728A0D9A7aec8Bc38Fea864cC18",
+    "protocolFeeBps": 100,
+    "proposalDelay": 7200
   },
   "funds": [],
-  "deployedAt": "",
+  "deployedAt": "2026-02-21",
   "lastUpgrade": "",
   "lastUpgradeNote": ""
 }

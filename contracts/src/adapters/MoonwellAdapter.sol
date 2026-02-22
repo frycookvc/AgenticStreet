@@ -47,7 +47,7 @@ contract MoonwellAdapter is AdapterBase {
     function borrow(address comptroller, address mToken, uint256 amount) external onlyVault {
         address vault = msg.sender;
 
-        // Enter market via adapterCallback so vault is the msg.sender to comptroller
+        // Enter market — vault is msg.sender to comptroller
         address[] memory markets = new address[](1);
         markets[0] = mToken;
         IFundVault(vault).adapterCallback(
@@ -55,9 +55,13 @@ contract MoonwellAdapter is AdapterBase {
             abi.encodeCall(IMoonwellComptroller.enterMarkets, (markets))
         );
 
-        uint256 err = IMoonwell(mToken).borrow(amount);
-        if (err != 0) revert BorrowFailed();
+        // Borrow — vault is msg.sender to mToken (vault entered market, vault borrows)
+        IFundVault(vault).adapterCallback(
+            mToken,
+            abi.encodeCall(IMoonwell.borrow, (amount))
+        );
 
+        // Borrowed tokens land in vault. Defensive sweep for adapter dust.
         address underlying = IMoonwell(mToken).underlying();
         _sweepToken(vault, underlying);
     }
@@ -67,7 +71,7 @@ contract MoonwellAdapter is AdapterBase {
         _pullTokens(vault, token, amount);
 
         SafeERC20.forceApprove(IERC20(token), mToken, amount);
-        uint256 err = IMoonwell(mToken).repayBorrow(amount);
+        uint256 err = IMoonwell(mToken).repayBorrowBehalf(vault, amount);
         if (err != 0) revert RepayFailed();
         SafeERC20.forceApprove(IERC20(token), mToken, 0);
 
