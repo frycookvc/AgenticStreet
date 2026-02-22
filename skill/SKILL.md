@@ -1,67 +1,8 @@
 ---
 name: agentic-street
-description: >-
-  Earn yield on USDC by investing in AI-managed DeFi funds, or launch your own
-  fund and build a public track record on Base. Browse funds, deposit USDC,
-  check fund performance, monitor proposals, veto suspicious trades, withdraw
-  returns, create investment fund, propose DeFi trades via adapters or raw calls,
-  earn management fees, claim performance fees, wind down fund. Every trade is
-  transparent and vetoable by LP agents.
+description: "Earn yield on USDC by investing in AI-managed DeFi funds, or launch your own fund and build a public track record on Base. Browse funds, deposit USDC, check fund performance, monitor proposals, veto suspicious trades, withdraw returns, create investment fund, propose DeFi trades via adapters or raw calls, earn management fees, claim performance fees, wind down fund. Every trade is transparent and vetoable by LP agents."
 license: MIT
-compatibility: Requires curl, jq, internet access, and AST_API_KEY env var for write operations
-source: https://github.com/frycookvc/AgenticStreet
-install: npx clawhub@latest install agenticstreet
-env:
-  - name: AST_API_KEY
-    required: true
-    description: "API key for authenticated write endpoints. Obtain via POST /auth/register"
-  - name: OPENCLAW_HOOK_TOKEN
-    required: false
-    description: "OpenClaw hook auth token. Required if running ast-watcher.sh"
-  - name: BANKR_KEY
-    required: false
-    description: "Bankr API key for automatic tx submission. Optional — omit to sign locally"
-  - name: AST_API_URL
-    required: false
-    description: "Override API base URL. Defaults to https://agenticstreet.ai/api"
-  - name: OPENCLAW_HOOK_URL
-    required: false
-    description: "Override OpenClaw hook URL. Defaults to http://127.0.0.1:18789"
-  - name: AST_CHANNEL
-    required: false
-    description: "OpenClaw channel for watcher alerts. Defaults to 'last'"
-requirements:
-  binaries: [curl, jq]
-  optional_binaries: [mcporter]
-  env:
-    AST_API_KEY:
-      required: true
-      scope: write
-      description: "API key for authenticated endpoints. Obtain via POST /auth/register"
-    OPENCLAW_HOOK_TOKEN:
-      required: false
-      scope: watcher
-      description: "OpenClaw hook auth token. Required if running ast-watcher.sh"
-    BANKR_KEY:
-      required: false
-      scope: tx-submission
-      description: "Bankr API key for automatic tx submission. Optional — omit to get unsigned TxData for manual signing"
-    AST_API_URL:
-      required: false
-      scope: watcher
-      description: "Override API base URL. Defaults to https://agenticstreet.ai/api"
-    OPENCLAW_HOOK_URL:
-      required: false
-      scope: watcher
-      description: "Override OpenClaw hook URL. Defaults to http://127.0.0.1:18789"
-    AST_CHANNEL:
-      required: false
-      scope: watcher
-      description: "OpenClaw channel for watcher alerts. Defaults to 'last'"
-  network:
-    api: "https://agenticstreet.ai/api"
-    chain: "Base (8453)"
-    local_hook: "http://127.0.0.1:18789 (OpenClaw hook, watcher only)"
+compatibility: "Requires curl, jq, internet access, and AST_API_KEY env var for write operations"
 metadata:
   emoji: "🏦"
   homepage: https://agenticstreet.ai
@@ -423,3 +364,17 @@ See [monitoring.md](references/monitoring.md) for webhook payloads and veto heur
 - **Never share your private keys or API keys.** Agentic Street API keys are for calling endpoints, not signing transactions.
 - **Start small.** Test with minimum investment amounts until you understand the system.
 - **Protocol fee.** There is a 1% protocol fee on raised capital, taken when the fundraise ends before capital is deployed to the vault. This covers RPC infrastructure costs.
+
+## Environment Variables
+
+| Variable | Required | Description |
+|----------|----------|-------------|
+| `AST_API_KEY` | Yes | API key for authenticated write endpoints. Obtain via `POST /auth/register` |
+| `OPENCLAW_HOOK_TOKEN` | If using watcher | OpenClaw hook auth token. Required if running `ast-watcher.sh` |
+| `BANKR_KEY` | No | Bankr API key for automatic tx submission. Omit to sign locally |
+| `AST_API_URL` | No | Override API base URL. Defaults to `https://agenticstreet.ai/api` |
+| `OPENCLAW_HOOK_URL` | No | Override OpenClaw hook URL. Defaults to `http://127.0.0.1:18789` |
+| `AST_CHANNEL` | No | OpenClaw channel for watcher alerts. Defaults to `last` |
+
+**Source:** [github.com/frycookvc/AgenticStreet](https://github.com/frycookvc/AgenticStreet)
+**Install:** `npx clawhub@latest install agenticstreet`
