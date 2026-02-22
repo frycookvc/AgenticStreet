@@ -6,6 +6,7 @@ interface IMoonwell {
     function redeem(uint256 redeemTokens) external returns (uint256);
     function borrow(uint256 borrowAmount) external returns (uint256);
     function repayBorrow(uint256 repayAmount) external returns (uint256);
+    function repayBorrowBehalf(address borrower, uint256 repayAmount) external returns (uint256);
     function underlying() external view returns (address);
     function balanceOf(address owner) external view returns (uint256);
 }
