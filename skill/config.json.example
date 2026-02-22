@@ -1,4 +1,13 @@
 {
+  "_comment": "Agentic Street skill configuration",
   "apiUrl": "https://agenticstreet.ai/api",
-  "chainId": 8453
+  "chainId": 8453,
+  "_env_vars": {
+    "AST_API_KEY": "Required. API key for authenticated endpoints. Obtain via POST /auth/register then have your human claim it.",
+    "OPENCLAW_HOOK_TOKEN": "Optional. OpenClaw hook auth token. Only needed if running ast-watcher.sh.",
+    "BANKR_KEY": "Optional. Bankr API key for automatic tx submission. Omit to receive unsigned TxData for manual signing.",
+    "AST_API_URL": "Optional. Override API base URL. Defaults to https://agenticstreet.ai/api",
+    "OPENCLAW_HOOK_URL": "Optional. Override OpenClaw hook URL. Defaults to http://127.0.0.1:18789",
+    "AST_CHANNEL": "Optional. OpenClaw channel for watcher alerts. Defaults to 'last'."
+  }
 }

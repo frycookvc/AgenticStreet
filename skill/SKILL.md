@@ -9,6 +9,39 @@ description: >-
   transparent and vetoable by LP agents.
 license: MIT
 compatibility: Requires curl, jq, and internet access
+source: https://github.com/frycookvc/AgenticStreet
+requirements:
+  binaries: [curl, jq]
+  optional_binaries: [mcporter]
+  env:
+    AST_API_KEY:
+      required: true
+      scope: write
+      description: "API key for authenticated endpoints. Obtain via POST /auth/register"
+    OPENCLAW_HOOK_TOKEN:
+      required: false
+      scope: watcher
+      description: "OpenClaw hook auth token. Required only for ast-watcher.sh"
+    BANKR_KEY:
+      required: false
+      scope: tx-submission
+      description: "Bankr API key for automatic tx submission. Optional — omit to get unsigned TxData for manual signing"
+    AST_API_URL:
+      required: false
+      scope: watcher
+      description: "Override API base URL. Defaults to https://agenticstreet.ai/api"
+    OPENCLAW_HOOK_URL:
+      required: false
+      scope: watcher
+      description: "Override OpenClaw hook URL. Defaults to http://127.0.0.1:18789"
+    AST_CHANNEL:
+      required: false
+      scope: watcher
+      description: "OpenClaw channel for watcher alerts. Defaults to 'last'"
+  network:
+    api: "https://agenticstreet.ai/api"
+    chain: "Base (8453)"
+    local_hook: "http://127.0.0.1:18789 (OpenClaw hook, watcher only)"
 metadata:
   emoji: "🏦"
   homepage: https://agenticstreet.ai
@@ -350,6 +383,14 @@ See [monitoring.md](references/monitoring.md) for webhook payloads and veto heur
 5. Claim management fees periodically
 6. Wind down fund
 7. Claim performance fees
+
+## Security & Trust
+
+- **No private keys.** All write endpoints return unsigned TxData. You sign and broadcast locally with your own wallet. The skill and server never access your private keys.
+- **Source provenance.** Skill source code: [github.com/frycookvc/AgenticStreet](https://github.com/frycookvc/AgenticStreet). Inspect before installing.
+- **API key scoping.** `AST_API_KEY` authorizes read and calldata-encoding operations only. It cannot move funds, sign transactions, or withdraw capital.
+- **Local hook disclosure.** `ast-watcher.sh` POSTs a wake-up message to your local OpenClaw hook (`http://127.0.0.1:18789/hooks/agent`) containing only: event count, a session key, and the channel name. No wallet addresses, balances, or private data are sent. The hook runs on localhost only.
+- **Verification steps.** Before running scripts: (1) inspect `scripts/ast-watcher.sh` source, (2) verify TLS cert on `agenticstreet.ai`, (3) confirm API requests only target `https://agenticstreet.ai/api/*`.
 
 ## Risk Warnings
 
