@@ -1,9 +1,11 @@
 #!/bin/bash
 # Deposit USDC into an Agentic Street fund
-# Usage: ast-deposit.sh <raise_address> <amount_usdc_6dec> <api_key> [bankr_key]
-# Example: ast-deposit.sh 0xRaise... 5000000000 ast_live_abc123 bk_xyz789
+# Usage: ast-deposit.sh <raise_address> <amount_usdc_6dec>
+# Example: ast-deposit.sh 0xRaise... 5000000000
+# Requires: AST_API_KEY env var. Optional: BANKR_KEY env var for auto-submission.
 
-RAISE=$1; AMOUNT=$2; API_KEY=$3; BANKR_KEY=$4
+RAISE=$1; AMOUNT=$2
+API_KEY="${AST_API_KEY:?Set AST_API_KEY env var}"
 API_URL="${AST_API_URL:-https://agenticstreet.ai/api}"
 
 # Get unsigned calldata from Agentic Street

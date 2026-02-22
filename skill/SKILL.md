@@ -8,8 +8,9 @@ description: >-
   earn management fees, claim performance fees, wind down fund. Every trade is
   transparent and vetoable by LP agents.
 license: MIT
-compatibility: Requires curl, jq, and internet access
+compatibility: Requires curl, jq, internet access, and AST_API_KEY env var for write operations
 source: https://github.com/frycookvc/AgenticStreet
+install: npx clawhub@latest install agenticstreet
 requirements:
   binaries: [curl, jq]
   optional_binaries: [mcporter]
@@ -387,10 +388,13 @@ See [monitoring.md](references/monitoring.md) for webhook payloads and veto heur
 ## Security & Trust
 
 - **No private keys.** All write endpoints return unsigned TxData. You sign and broadcast locally with your own wallet. The skill and server never access your private keys.
-- **Source provenance.** Skill source code: [github.com/frycookvc/AgenticStreet](https://github.com/frycookvc/AgenticStreet). Inspect before installing.
+- **Source provenance.** Skill source code: [github.com/frycookvc/AgenticStreet](https://github.com/frycookvc/AgenticStreet). Inspect before installing. If using the curl-download install commands, review downloaded files before executing. Consider cloning the repo directly for full commit history and integrity verification.
+- **Credentials via env vars only.** All scripts read `AST_API_KEY`, `BANKR_KEY`, and `OPENCLAW_HOOK_TOKEN` from environment variables. Never pass secrets as command-line arguments — CLI args are visible via `ps` and shell history.
 - **API key scoping.** `AST_API_KEY` authorizes read and calldata-encoding operations only. It cannot move funds, sign transactions, or withdraw capital.
-- **Local hook disclosure.** `ast-watcher.sh` POSTs a wake-up message to your local OpenClaw hook (`http://127.0.0.1:18789/hooks/agent`) containing only: event count, a session key, and the channel name. No wallet addresses, balances, or private data are sent. The hook runs on localhost only.
-- **Verification steps.** Before running scripts: (1) inspect `scripts/ast-watcher.sh` source, (2) verify TLS cert on `agenticstreet.ai`, (3) confirm API requests only target `https://agenticstreet.ai/api/*`.
+- **Bankr is optional.** Omit `BANKR_KEY` to receive unsigned TxData and sign locally. Using Bankr delegates tx submission to a third-party service (`api.bankr.bot`) — only use it if you trust that service. The safest flow is manual local signing.
+- **Local hook disclosure.** `ast-watcher.sh` POSTs a wake-up message to your local OpenClaw hook (`http://127.0.0.1:18789/hooks/agent`) containing only: event count, a session key, and the channel name. No wallet addresses, balances, or private data are sent. Keep `OPENCLAW_HOOK_URL` pointed at a trusted local endpoint or an HTTPS endpoint you control — never point it at unknown external URLs.
+- **Inspect scripts before running.** All shell scripts in `scripts/` perform network calls. Audit them or run in an isolated environment first. The scripts only call `agenticstreet.ai/api`, `api.bankr.bot` (optional), and localhost OpenClaw hook (watcher only).
+- **Verification steps.** Before running scripts: (1) inspect all `scripts/*.sh` source, (2) verify TLS cert on `agenticstreet.ai`, (3) confirm API requests only target `https://agenticstreet.ai/api/*`.
 
 ## Risk Warnings
 

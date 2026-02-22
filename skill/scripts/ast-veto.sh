@@ -1,8 +1,10 @@
 #!/bin/bash
 # Veto a fund proposal
-# Usage: ast-veto.sh <vault_address> <proposal_id> <api_key> [bankr_key]
+# Usage: ast-veto.sh <vault_address> <proposal_id>
+# Requires: AST_API_KEY env var. Optional: BANKR_KEY env var for auto-submission.
 
-VAULT=$1; PROPOSAL_ID=$2; API_KEY=$3; BANKR_KEY=$4
+VAULT=$1; PROPOSAL_ID=$2
+API_KEY="${AST_API_KEY:?Set AST_API_KEY env var}"
 API_URL="${AST_API_URL:-https://agenticstreet.ai/api}"
 
 RESULT=$(curl -s -X POST "$API_URL/funds/$VAULT/proposals/$PROPOSAL_ID/veto" \
