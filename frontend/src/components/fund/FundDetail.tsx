@@ -1732,6 +1732,27 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
   }, []);
 
 
+  // Match activity-log height to fund-details card
+  const detailsCardRef = useRef<HTMLDivElement>(null);
+  const activityWrapRef = useRef<HTMLDivElement>(null);
+  const raiseBarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const card = detailsCardRef.current;
+    if (!card) return;
+    const ro = new ResizeObserver(() => {
+      const wrap = activityWrapRef.current;
+      const bar = raiseBarRef.current;
+      if (!wrap) return;
+      const cardH = card.getBoundingClientRect().height;
+      const barH = bar ? bar.getBoundingClientRect().height : 0;
+      // 32px = lg:gap-8
+      wrap.style.maxHeight = `${cardH - barH - 32}px`;
+    });
+    ro.observe(card);
+    return () => ro.disconnect();
+  }, []);
+
   const minRaiseMet = statsReady && BigInt(s.totalDeposited) >= BigInt(t.minRaise);
   const snakeTitle = name.toUpperCase().replace(/\s+/g, '_');
 
@@ -1832,11 +1853,11 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
 
       {/* ── Two-column layout (card + sidebar aligned) ─────────── */}
       <div
-        className={`grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(300px,2fr)] lg:grid-rows-[auto_minmax(0,1fr)] gap-4 lg:gap-8 max-w-[1400px] transition-opacity duration-300 ${cardVisible ? 'opacity-100' : 'opacity-0'}`}
+        className={`grid grid-cols-1 lg:grid-cols-[minmax(0,3fr)_minmax(300px,2fr)] lg:grid-rows-[auto_1fr] gap-4 lg:gap-8 max-w-[1400px] transition-opacity duration-300 ${cardVisible ? 'opacity-100' : 'opacity-0'}`}
       >
 
         {/* Progress bar — first on mobile, right column row 1 on desktop */}
-        <div className="lg:col-start-2 lg:row-start-1">
+        <div ref={raiseBarRef} className="lg:col-start-2 lg:row-start-1">
           {statsReady ? (
             <AsciiProgressBar
               totalDeposited={s.totalDeposited}
@@ -1858,7 +1879,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
         </div>
 
         {/* Details card — second on mobile, left column spanning both rows on desktop */}
-        <div className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
+        <div ref={detailsCardRef} className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
           <WindowChrome
             title={toSnakeCaseFund(name)}
             rightSlot={<Erc8004Badge verified={verified} agentId={agentId} />}
@@ -1967,7 +1988,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
         </div>
 
         {/* Activity log — third on mobile, right column row 2 on desktop */}
-        <div className="min-w-0 lg:col-start-2 lg:row-start-2 lg:min-h-0 lg:overflow-hidden flex flex-col">
+        <div ref={activityWrapRef} className="min-w-0 lg:col-start-2 lg:row-start-2 lg:min-h-0 lg:overflow-hidden flex flex-col">
           <ActivityLog vaultAddress={t.vault} status={status} />
         </div>
 
