@@ -47,7 +47,7 @@ function ContLine({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex items-baseline text-[0.8125rem] leading-[1.8]">
+    <div className="flex items-baseline text-[0.8125rem] leading-[1.8] overflow-hidden whitespace-nowrap">
       <span className="w-6 shrink-0 text-right text-[12px] text-text-muted mr-2">
         {lineNum}
       </span>
@@ -147,7 +147,7 @@ export function FundCard({ fund, visible }: FundCardProps) {
               &quot;{descLine1}
             </ContLine>
             <ContLine lineNum={5}>
-              {descLine2}
+              {descLine2 || '\u00A0'}
             </ContLine>
             <ContLine lineNum={6}>
               <span className="overflow-hidden whitespace-nowrap min-w-0" style={{ textOverflow: 'clip' }}>
