@@ -1880,7 +1880,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
         </div>
 
         {/* Details card — second on mobile, left column spanning both rows on desktop */}
-        <div ref={detailsCardRef} className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2">
+        <div ref={detailsCardRef} className="min-w-0 lg:col-start-1 lg:row-start-1 lg:row-span-2 lg:self-start">
           <WindowChrome
             title={toSnakeCaseFund(name)}
             rightSlot={<Erc8004Badge verified={verified} agentId={agentId} />}
