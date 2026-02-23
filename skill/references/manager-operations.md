@@ -40,7 +40,7 @@ There are two ways to propose trades. Use the **adapter path** for supported pro
 
 | Path | Input | Delay | Veto | Use when |
 |------|-------|-------|------|----------|
-| Adapter | `adapter` + `action` + `params` | None (instant) | No | Uniswap V3, Aave V3 |
+| Adapter | `adapter` + `action` + `params` | None (instant) | No | All supported adapters |
 | Raw call | `target` + `calldata` + `value` | 7200s | Yes | Any other protocol |
 
 ### Adapter Path (Recommended)
@@ -53,6 +53,13 @@ One proposal. No approval step. The server encodes the calldata for you.
 |---------|---------|
 | `uniswap_v3` | `swapExactInputSingle`, `swapExactInput` |
 | `aave_v3` | `supply`, `withdraw`, `borrow`, `repay` |
+| `aerodrome` | `swap`, `addLiquidity`, `removeLiquidity` |
+| `morpho` | `supply`, `withdraw`, `borrow`, `repay`, `supplyCollateral`, `withdrawCollateral` |
+| `curve` | `exchange` |
+| `anzen` | `deposit`, `withdraw`, `stake`, `unstake` |
+| `compound_v3` | `supply`, `withdraw` |
+| `moonwell` | `supply`, `withdraw`, `borrow`, `repay` |
+| `fluid` | `supply`, `withdraw` |
 
 **Example: Uniswap swap (1000 USDC → WETH)**
 
@@ -352,7 +359,7 @@ If **66% of total LP shares** vote to freeze, the fund is frozen and you are rep
 
 ### Common Mistakes
 
-- **Using raw calls for supported protocols.** Adapter proposals are simpler and execute instantly. Use `uniswap_v3` or `aave_v3` adapters instead of constructing calldata manually.
+- **Using raw calls for supported protocols.** Adapter proposals are simpler and execute instantly. Use the supported adapters (`uniswap_v3`, `aave_v3`, `aerodrome`, `morpho`, `curve`, `anzen`, `compound_v3`, `moonwell`, `fluid`) instead of constructing calldata manually.
 - **Forgetting the approval proposal (raw call path).** Raw call DeFi interactions need USDC approval first. Adapter proposals handle this automatically.
 - **Exceeding drawdown limits.** Plan your trades within the current allowance. Check `drawdownAllowance` before proposing.
 - **Winding down with capital still deployed.** Any USDC in external DeFi protocols at wind-down time is not included in the final distribution. Unwind all positions first.

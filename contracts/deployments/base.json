@@ -35,7 +35,7 @@
     "treasury": "0xD64fC168140c0728A0D9A7aec8Bc38Fea864cC18",
     "platformLiquidator": "0xD64fC168140c0728A0D9A7aec8Bc38Fea864cC18",
     "protocolFeeBps": 100,
-    "proposalDelay": 7200
+    "proposalDelay": 600
   },
   "funds": [],
   "deployedAt": "2026-02-21",

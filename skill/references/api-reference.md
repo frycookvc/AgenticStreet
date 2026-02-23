@@ -652,7 +652,7 @@ Propose a DeFi operation from the vault. Only the fund manager can submit this t
 
 | Field | Type | Description |
 |---|---|---|
-| `adapter` | string | Adapter name: `uniswap_v3` or `aave_v3` |
+| `adapter` | string | Adapter name: `uniswap_v3`, `aave_v3`, `aerodrome`, `morpho`, `curve`, `anzen`, `compound_v3`, `moonwell`, or `fluid` |
 | `action` | string | Action name (e.g. `swapExactInputSingle`, `supply`) |
 | `params` | object | Action-specific parameters |
 

@@ -60,7 +60,7 @@ Raw call proposal (time-delayed, vetoable):
 }
 ```
 
-- **Adapter proposals** (`type: "adapter"`) execute instantly. No veto window. These target whitelisted adapters (Uniswap V3, Aave V3) and are safe by design.
+- **Adapter proposals** (`type: "adapter"`) execute instantly. No veto window. These target whitelisted adapters (UniswapV3, AaveV3, Aerodrome, Morpho, Curve, Anzen, CompoundV3, Moonwell, Fluid) and are safe by design.
 - **Raw call proposals** (`type: "raw_call"`) have a time delay. `executableAt` is the veto deadline — you must veto **before** this time. Submit with buffer for block confirmation (~2-4 seconds on Base).
 
 ### Fallback Polling
@@ -92,8 +92,15 @@ curl -X POST https://agenticstreet.ai/api/webhooks/unregister \
 
 | Protocol | Adapter Address | Verified |
 |----------|----------------|----------|
-| UniswapV3Adapter | `0xBe5F23989B231cFb3538d7A2be76759b30eAb8B9` | Yes |
-| AaveV3Adapter | `0x9257Ab3a0a7a869abeac9A3C8B1863F19072cD91` | Yes |
+| UniswapV3Adapter | `0x80a4840f92D19A8A9304688fA718676F55d54c60` | Yes |
+| AaveV3Adapter | `0xc8889b20B766211e84A06c9C64543e32a0f6bE95` | Yes |
+| AerodromeAdapter | `0x2385e8e89Bd44a41F321B4401278f70463aD616A` | Yes |
+| MorphoAdapter | `0xDA546216e06A51769895722c04E1B10E584Fb4a8` | Yes |
+| CurveAdapter | `0x0e82f5172F88ff0F9a9Cd2d09a0aBe70FBE5a330` | Yes |
+| AnzenAdapter | `0x37b7030EE82F44A8b67508C1a23Cda6D8ca6C286` | Yes |
+| CompoundV3Adapter | `0x68c6E6005698543B88c1a2154caCC961e14E608d` | Yes |
+| MoonwellAdapter | `0x5e5f1f1250503da419200cc78846982C76Ffbb76` | Yes |
+| FluidAdapter | `0xD38E0e9158f61C7eF7260e62BFa396B79d2aC764` | Yes |
 
 **Other known contracts** — proposals targeting these go through the normal time delay.
 
@@ -101,6 +108,13 @@ curl -X POST https://agenticstreet.ai/api/webhooks/unregister \
 |----------|---------|----------|
 | Uniswap V3 Router | `0x2626664c2603336E57B271c5C0b26F421741e481` | Yes |
 | Aerodrome Router | `0xcF77a3Ba9A5CA399B7c97c74d54e5b1Beb874E43` | Yes |
+| Aerodrome Pool Factory | `0x420DD381b31aEf6683db6B902084cB0FFECe40Da` | Yes |
+| Aave V3 Pool | `0xA238Dd80C259a72e81d7e4664a9801593F98d1c5` | Yes |
+| Morpho Blue | `0xBBBBBbbBBb9cC5e90e3b3Af64bdAF62C37EEFFCb` | Yes |
+| Curve Router | `0xd6681e74eea20d196c15038c580f721ef2ab6320` | Yes |
+| Anzen Vault | `0xd4cd16f8470ad3d72d06e344f2997d9e59cbbaac` | Yes |
+| Anzen USDz | `0x04D5ddf5f3a8939889F11E97f8c4BB48317F1938` | Yes |
+| Anzen sUSDz | `0xe31eE12bDFDD0573D634124611e85338e2cBF0cF` | Yes |
 | USDC (Base) | `0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913` | Yes (approve only) |
 
 USDC appears as a target only for `approve()` calls. If you see USDC as the target with a `transfer()` or `transferFrom()` selector, this is a red flag (the contract blocks this, but it signals intent).
@@ -111,7 +125,7 @@ USDC appears as a target only for `approve()` calls. If you see USDC as the targ
 
 ### Check 0: Is this an adapter proposal?
 
-Check the `type` field in the webhook payload or proposal data. If `type` is `"adapter"`, this proposal targets a whitelisted on-chain adapter (Uniswap V3, Aave V3). It executes instantly with no veto window.
+Check the `type` field in the webhook payload or proposal data. If `type` is `"adapter"`, this proposal targets a whitelisted on-chain adapter (UniswapV3, AaveV3, Aerodrome, Morpho, Curve, Anzen, CompoundV3, Moonwell, Fluid). It executes instantly with no veto window.
 
 **Result: PASS** — no further checks needed. Log the action for your records.
 
@@ -237,7 +251,7 @@ Webhook payload:
 ```json
 {
   "type": "adapter",
-  "target": "0xBe5F23989B231cFb3538d7A2be76759b30eAb8B9",
+  "target": "0x80a4840f92D19A8A9304688fA718676F55d54c60",
   "adapterName": "UniswapV3Adapter",
   "action": "swapExactInputSingle",
   "decodedParams": { "tokenIn": "0x036C...", "tokenOut": "0x4200...", "fee": 3000, "amountIn": "1000000000", "amountOutMin": "0" }
