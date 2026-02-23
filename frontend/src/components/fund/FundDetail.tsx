@@ -1738,6 +1738,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
   const raiseBarRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!cardVisible) return;
     const card = detailsCardRef.current;
     if (!card) return;
     const ro = new ResizeObserver(() => {
@@ -1751,7 +1752,7 @@ export function FundDetail({ vaultAddress, previewStatus }: FundDetailProps) {
     });
     ro.observe(card);
     return () => ro.disconnect();
-  }, []);
+  }, [cardVisible]);
 
   const minRaiseMet = statsReady && BigInt(s.totalDeposited) >= BigInt(t.minRaise);
   const snakeTitle = name.toUpperCase().replace(/\s+/g, '_');
