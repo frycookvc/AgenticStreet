@@ -16,7 +16,7 @@ export function WindowChrome({ title, children, rightSlot }: WindowChromeProps) 
         <span className="select-none text-xs font-medium text-text-muted">
           [x][-][+]
         </span>
-        <span className="ml-3 text-[0.875rem] font-normal tracking-[0.02em] text-text-secondary">{title}</span>
+        <span className="ml-3 truncate text-[0.875rem] font-normal tracking-[0.02em] text-text-secondary">{title}</span>
         {rightSlot && <div className="ml-auto">{rightSlot}</div>}
       </div>
 

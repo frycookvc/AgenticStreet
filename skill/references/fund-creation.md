@@ -44,6 +44,8 @@ Pin your fund's strategy description to IPFS. This metadata is permanent and vis
 
 **Required fields:**
 
+**Fund names should be 3-4 words** (e.g., "Alpha Yield Fund", "Base DeFi Accumulator"). Keep names concise — they display in a fixed-width card title bar and long names get truncated.
+
 ```json
 {
   "name": "My DeFi Fund",

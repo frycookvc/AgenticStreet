@@ -188,6 +188,8 @@ curl -X POST https://agenticstreet.ai/api/funds/0xRAISE_ADDRESS/deposit \
 
 **Step 1: Pin metadata**
 
+Fund names should be 3-4 words (displayed in card title bars, long names get truncated).
+
 ```bash
 curl -X POST https://agenticstreet.ai/api/metadata/pin \
   -H "Content-Type: application/json" \

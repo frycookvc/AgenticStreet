@@ -157,6 +157,29 @@ Execute the approval first, then the operation.
 - **USDC target restrictions** — only `approve()` is allowed when targeting the USDC contract. `transfer()` and `transferFrom()` are blocked.
 - **Proposals cannot be submitted when the fund is frozen or winding down.**
 
+### Fluid Vault Leverage (Raw Call)
+
+The `fluid` adapter covers simple `supply`/`withdraw`. For **leveraged vault positions**, use raw calls against Fluid's vault contracts directly.
+
+**Critical: call the vault, not the Operate implementation.** Fluid deploys two contracts per vault. The `_Operate` contract is an internal implementation — calling it directly reverts with error `31019` (`Vault__OnlyDelegateCallAllowed`). Always call the vault contract itself.
+
+In the [Fluid deployments repo](https://github.com/Instadapp/fluid-contracts-public/tree/main/deployments/base):
+- `VaultT2_DEX-USDai-USDC_USDC.json` → **vault (call this)**
+- `VaultT2_DEX-USDai-USDC_USDC_Operate.json` → implementation (never call)
+
+**VaultT2 `operate()` signature:**
+
+```
+operate(uint256 nftId, int256 newColToken0, int256 newColToken1, int256 colSharesMinMax, int256 newDebt, address to)
+```
+
+- `nftId`: 0 = new position, >0 = modify existing
+- `newColToken0`/`newColToken1`: collateral amounts (positive = deposit, negative = withdraw)
+- `newDebt`: positive = borrow, negative = repay
+- `to`: recipient, `address(0)` = msg.sender
+
+Approve the collateral token to the vault address, then propose `operate()` as a raw call. Both proposals go through the time-delayed veto path.
+
 ---
 
 ## Drawdown Schedule
