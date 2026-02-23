@@ -175,10 +175,19 @@ operate(uint256 nftId, int256 newColToken0, int256 newColToken1, int256 colShare
 
 - `nftId`: 0 = new position, >0 = modify existing
 - `newColToken0`/`newColToken1`: collateral amounts (positive = deposit, negative = withdraw)
-- `newDebt`: positive = borrow, negative = repay
+- `colSharesMinMax`: **direction must match collateral.** Deposit: positive (min shares to receive). Withdrawal: negative (max shares to burn). No collateral change: must be 0. Use `type(int256).min + 1` for unlimited burn allowance on withdrawals.
+- `newDebt`: positive = borrow, negative = repay. Use `type(int256).min` to repay exact outstanding debt including accrued interest.
 - `to`: recipient, `address(0)` = msg.sender
 
-Approve the collateral token to the vault address, then propose `operate()` as a raw call. Both proposals go through the time-delayed veto path.
+**Closing a position (T2):** Single call: `operate(nftId, 0, -amount, type(int256).min + 1, type(int256).min, to)`. If debt is already repaid, omit the debt param (set to 0) — repaying zero reverts with `FluidLiquidityError(11007)`. Withdraw slightly under the deposited amount to avoid DEX rounding errors.
+
+**Approval target (T2 vaults):** Approve tokens to the **vault address itself**. For T2 (smart collateral) vaults, the vault calls `transferFrom` via a DEX callback — so `msg.sender` is the vault, not the Liquidity contract. Approving Liquidity does nothing. Approve a large amount upfront — each `operate()` consumes allowance.
+
+**LTV constraint:** `newDebt` must be less than total collateral × collateral factor (CF). For a vault with 88% CF, keep debt ≤ ~85% of collateral for safety margin.
+
+**Leverage:** `operate()` supplies collateral and borrows in one call, but does NOT auto-loop. Borrowed funds return to the caller. To build leverage, call `operate()` multiple times on the same NFT position — each time re-supplying borrowed funds as additional collateral.
+
+Propose approval to the vault first, then propose `operate()`. Both go through the time-delayed raw call path.
 
 ---
 
