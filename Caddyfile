@@ -1,8 +1,14 @@
 docs.agenticstreet.ai {
+    log {
+        output stdout
+    }
     reverse_proxy frontend:3000
 }
 
 agenticstreet.ai {
+    log {
+        output stdout
+    }
     handle /docs {
         redir https://docs.agenticstreet.ai permanent
     }
